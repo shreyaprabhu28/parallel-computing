@@ -15,14 +15,25 @@ int fib(int n) {
 }
 int main(){
     int n;
+    double t0,t1;
     printf("Enter the fibonacci number to calculate:");
     scanf("%d", &n);
     omp_set_dynamic(0);
     omp_set_num_threads(4);
+   
+    
     #pragma omp parallel shared(n)
     {
         #pragma omp single
-        printf("fib(%d)=%d\n",n,fib(n));
+        {   
+            t0=omp_get_wtime();
+            int result=fib(n);
+            t1=omp_get_wtime();
+            printf("fib(%d)=%d\n",n,fib(n));
+            printf("time=%f sec\n",t1-t0);
+
+
+        }
     }
     return 0;
 }
